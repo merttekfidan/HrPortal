@@ -14,6 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/course', function(){
-    return view('activities.course');
+Route::get('/test', function () {
+    return view('theme.body');
 });
