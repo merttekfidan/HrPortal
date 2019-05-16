@@ -20,3 +20,10 @@ Route::get('/index', function () {
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
+/**
+Route::get('/course', 'CourseController@index')->name('course');
+Route::get('/course/create', 'CourseController@create')->name('course.create');
+Route::post('/course/store', 'CourseController@store');
+Route::get('/course/{id}', 'CourseController@show');
+**/
+Route::resource('course', 'CourseController');
