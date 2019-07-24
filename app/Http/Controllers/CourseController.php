@@ -61,4 +61,8 @@ class CourseController extends Controller
         $courses = Course::find($id);
         return view('pages.activities.course.show', compact('courses'));
     }
+    public function update(Request $requests)
+    {
+        return redirect('/course')->with('success', 'Updated');
+    }
 }
