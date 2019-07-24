@@ -22,6 +22,7 @@ Route::get('/dashboard', function () {
 });*/
 
 Route::get('/course', 'CourseController@index')->name('course.index');
+Route::get('/course/update', 'CourseController@update')->name('course.update');
 Route::get('/course/create', 'CourseController@create')->name('course.create');
 Route::get('/course/{id}/edit', 'CourseController@edit')->name('course.edit');
 

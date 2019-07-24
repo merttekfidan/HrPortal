@@ -1,6 +1,7 @@
 @extends('theme.layout')
 @section('formName','Courses')
 @section('content')
+@include('theme._messages')
   <table class="table">
     <thead class="thead-dark">
       <tr>

@@ -2,8 +2,9 @@
 @section('formName','Course')
 @section('content')
 
-  <form method="get" action="{{route('course.edit',$course->id)}}">
+  <form method="get" action="{{route('course.update',$course->id)}}">
     @csrf
+    @method('PUT')
     @include("pages.activities.course._form",
     ['buttonText'=>"Edit",
     'accPerId'=>$course->accounting_period_id,
