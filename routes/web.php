@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/index', function () {
@@ -19,11 +19,10 @@ Route::get('/index', function () {
 });
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
-});
-/**
-Route::get('/course', 'CourseController@index')->name('course');
+});*/
+
+Route::get('/course', 'CourseController@index')->name('course.index');
 Route::get('/course/create', 'CourseController@create')->name('course.create');
-Route::post('/course/store', 'CourseController@store');
-Route::get('/course/{id}', 'CourseController@show');
-**/
-Route::resource('course', 'CourseController');
+Route::get('/course/{id}/edit', 'CourseController@edit')->name('course.edit');
+
+//Route::resource('course', 'CourseController');

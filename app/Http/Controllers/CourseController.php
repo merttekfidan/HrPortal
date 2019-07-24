@@ -12,20 +12,48 @@ use App\Models\Course;
 
 class CourseController extends Controller
 {
+    private function getAccountinPeriods()
+    {
+        $accountingPeriods = AccountingPeriod::all();
+        return $accountingPeriods;
+    }
+    private function getSemesters()
+    {
+        $semesters = Semester::all();
+        return $semesters;
+    }
+    private function getTerms()
+    {
+        $terms = Term::all();
+        return $terms;
+    }
     public function index()
     {
-        return 'Go to /course/create';
+        $course= Course::all();
+        return view('pages.activities.course.index')
+        ->with('course', $course);
     }
     public function create()
     {
-        $accountingPeriods = AccountingPeriod::all();
-        $semesters = Semester::all();
-        $terms = Term::all();
-        return view('pages.activities.course.create', compact('accountingPeriods', 'terms', 'semesters'));
+        $accPerArr=$this->getAccountinPeriods();
+        $semesterArr=$this->getSemesters();
+        $termArr=$this->getTerms();
+        return view('pages.activities.course.create')
+        ->with('accountingPeriods', $accPerArr)
+        ->with('semesters', $semesterArr)
+        ->with('terms', $termArr);
     }
-    public function store()
+    public function edit($id)
     {
-        return request()->all();
+        $accPerArr=$this->getAccountinPeriods();
+        $semesterArr=$this->getSemesters();
+        $termArr=$this->getTerms();
+        $course = Course::find($id);
+        return view('pages.activities.course.edit')
+        ->with('accountingPeriods', $accPerArr)
+        ->with('semesters', $semesterArr)
+        ->with('terms', $termArr)
+        ->with('course', $course);
     }
 
     public function show($id)

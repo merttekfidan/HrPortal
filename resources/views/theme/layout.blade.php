@@ -1,4 +1,4 @@
-@extends('theme.header')
+@include('theme.header')
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -29,4 +29,4 @@
 
     </div>
     <!-- End of Main Content -->
-@extends('theme.footer')
+@include('theme.footer')
