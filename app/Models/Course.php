@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $hidden = [];
+    protected $guarded = [];
     public $timestamps = false;
     public function classes()
     {
@@ -27,5 +28,9 @@ class Course extends Model
     public function languages()
     {
         return $this->belongsTo(Language::class, 'language_id', 'id');
+    }
+    public function entities()
+    {
+        return $this->belongsTo(Entity::class, 'entity_id', 'id');
     }
 }
