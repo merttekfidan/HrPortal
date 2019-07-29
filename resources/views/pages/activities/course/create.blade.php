@@ -2,7 +2,7 @@
 @section('formName','Course')
 @section('content')
 
-  <form method="get" action="{{route('course.create')}}">
+  <form method="post" action="{{route('course.store')}}">
     @csrf
     @include("pages.activities.course._form",['buttonText'=>"Create"])
   </form>
