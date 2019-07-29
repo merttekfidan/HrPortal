@@ -1,8 +1,9 @@
 <div class="form-group">
-  <label for="accountinPeriod">Accounting Period</label>
-  <select class="form-control form-control-sm" id="accountinPeriod" name="accountinPeriod">
+  <label for="accountingPeriod">Accounting Period</label>
+  <select class="form-control form-control-sm" id="accountingPeriod" name="accountingPeriod">
+
     @foreach ($accountingPeriods as $value)
-      <option value="{{$value->id}}" {{isset($accPerArr) && $accPerId===$value->id ? 'selected':''}}>{{$value->period}}</option>
+      <option value="{{$value->id}}" {{isset($accPerId) && $accPerId===$value->id ? 'selected':''}}>{{$value->period}}</option>
     @endforeach
   </select>
 </div>
@@ -19,6 +20,14 @@
   <select class="form-control form-control-sm" id="term" name="term">
     @foreach ($terms as $value)
       <option value="{{$value->id}}" {{isset($termId) && $termId===$value->id ? 'selected':''}}>{{$value->term_name}}</option>
+    @endforeach
+  </select>
+</div>
+<div class="form-group">
+  <label for="language">Term</label>
+  <select class="form-control form-control-sm" id="language" name="language">
+    @foreach ($languages as $value)
+      <option value="{{$value->id}}" {{isset($languageId) && $languageId===$value->id ? 'selected':''}}>{{$value->language}}</option>
     @endforeach
   </select>
 </div>
