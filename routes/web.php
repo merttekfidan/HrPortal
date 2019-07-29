@@ -22,8 +22,10 @@ Route::get('/dashboard', function () {
 });*/
 
 Route::get('/course', 'CourseController@index')->name('course.index');
-Route::get('/course/update', 'CourseController@update')->name('course.update');
+Route::Post('/course/store', 'CourseController@store')->name('course.store');
 Route::get('/course/create', 'CourseController@create')->name('course.create');
+Route::PUT('/course/{id}/update', 'CourseController@update')->name('course.update');
+Route::delete('/course/destroy', 'CourseController@destroy')->name('course.destroy');
 Route::get('/course/{id}/edit', 'CourseController@edit')->name('course.edit');
 
 //Route::resource('course', 'CourseController');
