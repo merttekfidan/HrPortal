@@ -62,11 +62,23 @@ class CourseController extends Controller
         $course->accounting_period_id = $request->accountingPeriod;
         $course->semester_id = $request->semester;
         $course->term_id = $request->term;
-        $course->name_of_subject = $request->nameOfSubject;
         $course->language_id = $request->language;
+        $course->language_if_others = $request->languageIfOthers;
+        $course->name_of_subject = $request->nameOfSubject;
+        $course->number_of_hours_planned = $request->numberOfHoursPlanned;
+        $course->hours_of_conducted_lessons = $request->hoursOfConductedLessons;
+        $course->number_of_hours_real_conducted = $request->numberOfHoursRealConducted;
+        $course->other_information = $request->otherInformation;
+        $course->student_semester = $request->studentSemester;
+        $course->day = $request->day;
+        $course->dates = $request->dates;
+        $course->rooms = $request->rooms;
+
+
         $entity->courses()->save($course);
         return redirect()->route('course.index')->with('success', 'A new course is added');
     }
+
     public function edit($id)
     {
         $accPer=$this->getAccountinPeriods();
@@ -100,8 +112,17 @@ class CourseController extends Controller
         $course->accounting_period_id = $request->accountingPeriod;
         $course->semester_id = $request->semester;
         $course->term_id = $request->term;
-        $course->name_of_subject = $request->nameOfSubject;
         $course->language_id = $request->language;
+        $course->language_if_others = $request->languageIfOthers;
+        $course->name_of_subject = $request->nameOfSubject;
+        $course->number_of_hours_planned = $request->numberOfHoursPlanned;
+        $course->hours_of_conducted_lessons = $request->hoursOfConductedLessons;
+        $course->number_of_hours_real_conducted = $request->numberOfHoursRealConducted;
+        $course->other_information = $request->otherInformation;
+        $course->student_semester = $request->studentSemester;
+        $course->day = $request->day;
+        $course->dates = $request->dates;
+        $course->rooms = $request->rooms;
         $entity->courses()->save($course);
         return redirect()->route('course.index')->with('success', 'Updated');
     }
