@@ -9,6 +9,7 @@ use App\Models\Semester;
 use App\Models\Language;
 use App\Models\TypeOfClass;
 use App\Models\Course;
+use App\Models\Entity;
 
 class CourseController extends Controller
 {
@@ -27,6 +28,11 @@ class CourseController extends Controller
         $terms = Term::all();
         return $terms;
     }
+    private function getLanguages()
+    {
+        $languages = Language::all();
+        return $languages;
+    }
     public function index()
     {
         $course= Course::all();
@@ -35,24 +41,44 @@ class CourseController extends Controller
     }
     public function create()
     {
-        $accPerArr=$this->getAccountinPeriods();
-        $semesterArr=$this->getSemesters();
-        $termArr=$this->getTerms();
+        $accPer=$this->getAccountinPeriods();
+        $semester=$this->getSemesters();
+        $term=$this->getTerms();
+        $language=$this->getLanguages();
         return view('pages.activities.course.create')
-        ->with('accountingPeriods', $accPerArr)
-        ->with('semesters', $semesterArr)
-        ->with('terms', $termArr);
+        ->with('accountingPeriods', $accPer)
+        ->with('semesters', $semester)
+        ->with('terms', $term)
+        ->with('languages', $language);
+    }
+    public function store(Request $request)
+    {
+        $course = new Course;
+        $entity = new Entity;
+        $entity->user_id = "1";
+        $entity->entity_form_id = "1";
+        $entity->save();
+
+        $course->accounting_period_id = $request->accountingPeriod;
+        $course->semester_id = $request->semester;
+        $course->term_id = $request->term;
+        $course->name_of_subject = $request->nameOfSubject;
+        $course->language_id = $request->language;
+        $entity->courses()->save($course);
+        return redirect()->route('course.index')->with('success', 'A new course is added');
     }
     public function edit($id)
     {
-        $accPerArr=$this->getAccountinPeriods();
-        $semesterArr=$this->getSemesters();
-        $termArr=$this->getTerms();
+        $accPer=$this->getAccountinPeriods();
+        $semester=$this->getSemesters();
+        $term=$this->getTerms();
+        $language=$this->getLanguages();
         $course = Course::find($id);
         return view('pages.activities.course.edit')
-        ->with('accountingPeriods', $accPerArr)
-        ->with('semesters', $semesterArr)
-        ->with('terms', $termArr)
+        ->with('accountingPeriods', $accPer)
+        ->with('semesters', $semester)
+        ->with('terms', $term)
+        ->with('languages', $language)
         ->with('course', $course);
     }
 
@@ -61,8 +87,22 @@ class CourseController extends Controller
         $courses = Course::find($id);
         return view('pages.activities.course.show', compact('courses'));
     }
-    public function update(Request $requests)
+    public function update(Request $request, $id)
     {
-        return redirect('/course')->with('success', 'Updated');
+        $course = Course::find($id);
+        $entity = Entity::find($course->entity_id);
+        $entity->user_id = "1";
+        $entity->entity_form_id = "1";
+        //to update updated_at column
+        $entity->touch();
+        $entity->save();
+
+        $course->accounting_period_id = $request->accountingPeriod;
+        $course->semester_id = $request->semester;
+        $course->term_id = $request->term;
+        $course->name_of_subject = $request->nameOfSubject;
+        $course->language_id = $request->language;
+        $entity->courses()->save($course);
+        return redirect()->route('course.index')->with('success', 'Updated');
     }
 }
