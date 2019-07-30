@@ -1,6 +1,7 @@
 @extends('theme.layout')
-@section('formName','Courses')
+@section('formName','Course')
 @section('content')
+@section('formUrl',route('course.create'))
 @include('theme._messages')
   <table class="table">
     <thead class="thead-dark">
