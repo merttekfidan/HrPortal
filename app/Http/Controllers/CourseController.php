@@ -3,62 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AccountingPeriod;
-use App\Models\Term;
-use App\Models\Semester;
-use App\Models\Language;
-use App\Models\TypeOfClass;
 use App\Models\Course;
-use App\Models\Entity;
+use App\Http\SelectboxGet;
 
 class CourseController extends Controller
 {
-    private function getAccountinPeriods()
-    {
-        $accountingPeriods = AccountingPeriod::all();
-        return $accountingPeriods;
-    }
-    private function getSemesters()
-    {
-        $semesters = Semester::all();
-        return $semesters;
-    }
-    private function getTerms()
-    {
-        $terms = Term::all();
-        return $terms;
-    }
-    private function getLanguages()
-    {
-        $languages = Language::all();
-        return $languages;
-    }
     public function index()
     {
         $course= Course::all();
         return view('pages.activities.course.index')
         ->with('course', $course);
     }
-    public function create()
+
+    public function create(SelectboxGet $selectboxGet)
     {
-        $accPer=$this->getAccountinPeriods();
-        $semester=$this->getSemesters();
-        $term=$this->getTerms();
-        $language=$this->getLanguages();
-        return view('pages.activities.course.create')
-        ->with('accountingPeriods', $accPer)
-        ->with('semesters', $semester)
-        ->with('terms', $term)
-        ->with('languages', $language);
+        $selectboxes= array('accountingPeriods', 'semesters', 'terms', 'languages');
+        return view('pages.activities.course.create')->with($selectboxGet->fillSelectbox($selectboxes));
     }
-    public function store(Request $request)
+    private function mergeFields($request)
     {
         $course = new Course;
-        $entity = new Entity;
-        $entity->user_id = "1";
-        $entity->entity_form_id = "1";
-        $entity->save();
-
         $course->accounting_period_id = $request->accountingPeriod;
         $course->semester_id = $request->semester;
         $course->term_id = $request->term;
@@ -73,24 +37,25 @@ class CourseController extends Controller
         $course->day = $request->day;
         $course->dates = $request->dates;
         $course->rooms = $request->rooms;
-
-
+        return $course;
+    }
+    public function store(Request $request, Entity $entity)
+    {
+        $entity->user_id = "1";
+        $entity->entity_form_id = "1";
+        $entity->save();
+        $course= $this->mergeFields($request);
         $entity->courses()->save($course);
+
+
         return redirect()->route('course.index')->with('success', 'A new course is added');
     }
 
-    public function edit($id)
+    public function edit($id, SelectboxGet $selectboxGet)
     {
-        $accPer=$this->getAccountinPeriods();
-        $semester=$this->getSemesters();
-        $term=$this->getTerms();
-        $language=$this->getLanguages();
         $course = Course::find($id);
-        return view('pages.activities.course.edit')
-        ->with('accountingPeriods', $accPer)
-        ->with('semesters', $semester)
-        ->with('terms', $term)
-        ->with('languages', $language)
+        $selectboxes= array('accountingPeriods', 'semesters', 'terms', 'languages');
+        return view('pages.activities.course.edit')->with($this->fillSelectbox($selectboxes))
         ->with('course', $course);
     }
 
@@ -109,20 +74,7 @@ class CourseController extends Controller
         $entity->touch();
         $entity->save();
 
-        $course->accounting_period_id = $request->accountingPeriod;
-        $course->semester_id = $request->semester;
-        $course->term_id = $request->term;
-        $course->language_id = $request->language;
-        $course->language_if_others = $request->languageIfOthers;
-        $course->name_of_subject = $request->nameOfSubject;
-        $course->number_of_hours_planned = $request->numberOfHoursPlanned;
-        $course->hours_of_conducted_lessons = $request->hoursOfConductedLessons;
-        $course->number_of_hours_real_conducted = $request->numberOfHoursRealConducted;
-        $course->other_information = $request->otherInformation;
-        $course->student_semester = $request->studentSemester;
-        $course->day = $request->day;
-        $course->dates = $request->dates;
-        $course->rooms = $request->rooms;
+        $course= $this->mergeFields($request);
         $entity->courses()->save($course);
         return redirect()->route('course.index')->with('success', 'Updated');
     }
