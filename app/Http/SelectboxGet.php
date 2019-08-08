@@ -9,7 +9,7 @@ use App\Models\TypeOfClass;
 
 class selectboxGet
 {
-    private function getAccountinPeriods()
+    private function getAccountingPeriods()
     {
         $accountingPeriods = AccountingPeriod::all();
         return $accountingPeriods;
@@ -36,7 +36,7 @@ class selectboxGet
             foreach ($selectboxes as $name) {
                 switch ($name) {
                 case 'accountingPeriods':
-                    $accountingPeriods=$this->getAccountinPeriods();
+                    $accountingPeriods=$this->getAccountingPeriods();
                     $query= $query + compact('accountingPeriods');
                     break;
                 case 'semesters':
