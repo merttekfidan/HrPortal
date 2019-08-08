@@ -20,7 +20,7 @@ class CourseController extends Controller
         $selectboxes= array('accountingPeriods', 'semesters', 'terms', 'languages');
         return view('pages.activities.course.create')->with($selectboxGet->fillSelectbox($selectboxes));
     }
-    private function mergeFields($request)
+    private function setFields($request)
     {
         $course = new Course;
         $course->accounting_period_id = $request->accountingPeriod;
@@ -44,10 +44,8 @@ class CourseController extends Controller
         $entity->user_id = "1";
         $entity->entity_form_id = "1";
         $entity->save();
-        $course= $this->mergeFields($request);
+        $course= $this->setFields($request);
         $entity->courses()->save($course);
-
-
         return redirect()->route('course.index')->with('success', 'A new course is added');
     }
 
@@ -55,7 +53,7 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $selectboxes= array('accountingPeriods', 'semesters', 'terms', 'languages');
-        return view('pages.activities.course.edit')->with($this->fillSelectbox($selectboxes))
+        return view('pages.activities.course.edit')->with($selectboxGet->fillSelectbox($selectboxes))
         ->with('course', $course);
     }
 
@@ -74,7 +72,7 @@ class CourseController extends Controller
         $entity->touch();
         $entity->save();
 
-        $course= $this->mergeFields($request);
+        $course= $this->setFields($request);
         $entity->courses()->save($course);
         return redirect()->route('course.index')->with('success', 'Updated');
     }
