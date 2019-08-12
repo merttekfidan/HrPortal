@@ -26,7 +26,7 @@ Route::Post('/course', 'CourseController@store')->name('course.store');
 Route::get('/course/create', 'CourseController@create')->name('course.create');
 Route::PUT('/course', 'CourseController@update')->name('course.update');
 Route::get('/course/{id}', 'CourseController@show')->name('course.show');
-Route::delete('/course/destroy', 'CourseController@destroy')->name('course.destroy');
+Route::delete('/course/{id}/delete', 'CourseController@delete')->name('course.delete');
 Route::get('/course/{id}/edit', 'CourseController@edit')->name('course.edit');
 
 //Route::resource('course', 'CourseController');
