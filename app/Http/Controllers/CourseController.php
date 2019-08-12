@@ -77,4 +77,10 @@ class CourseController extends Controller
         $entity->courses()->save($course);
         return redirect()->route('course.index')->with('success', 'Updated');
     }
+    public function destroy($id)
+    {
+        $course = Course::find($id);
+        $course->delete();
+        return redirect()->route('course.index')->with('success', 'Deleted');
+    }
 }
